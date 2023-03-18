@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from core import choices
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-GROUPS_ALLOWED
+GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
+                  choices.UserGroup.BANK_STAFF,
+                  choices.UserGroup.BANK_STAFF_MANAGER
+                  )
 
 
 # Application definition
@@ -39,7 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
+    'permissions',
 ]
+
+SUB_COMMANDS = ['initial_users',
+                ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -123,3 +132,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Add Custom authentications
+AUTHENTICATION_BACKENDS = [
+    'users.backends.CustomAuthBackend',
+]
