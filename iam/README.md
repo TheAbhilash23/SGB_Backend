@@ -15,16 +15,20 @@
 <u>Tasks in line</u> :
 </h5>
 
-1. I have to enable User login (from User model) as well as admin login (Auth.user model).
+1. I have to enable User login (from User model) as well as admin login (Auth.user model). <b> DONE </b>
 <br><br>
 
-2. To create a token based authentication (bearer token).
+2. To create a token based authentication (bearer token). <b> DONE </b>
 <br><br>
 
-3. Then will be containerising this whole project.
+3. To create an assymetric key login using RS256 algorithm.
+
+4. To create a viewset in core such that each class based view should check the token authentication 
+
+5. Then will be containerising this whole project.
 <br><br>
 
-4. Then will integrate blockchain for transactions on a separate microservice. 
+6 Then will integrate blockchain for transactions on a separate microservice. 
 
 
 
