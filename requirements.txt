@@ -1,0 +1,10 @@
+decorator==5.1.1
+Django==4.0.6
+django-cors-headers==3.14.0
+djangorestframework==3.13.1
+drf-yasg==1.21.4
+grpcio==1.51.1
+grpcio-tools==1.51.1
+ipdb==0.13.13
+ipython==8.11.0
+-e core
