@@ -22,7 +22,6 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent
 SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
 
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 
 # GRPC registration
@@ -162,6 +161,7 @@ STATIC_ROOT = config('STATIC_ROOT', default=os.path.join(BASE_DIR / 'static/'))
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = config('MEDIA_ROOT', default=os.path.join(BASE_DIR / 'media/'))
+# MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

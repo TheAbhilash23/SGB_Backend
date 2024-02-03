@@ -12,11 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'core.messagbus',
     'visitors',
     'customers',
     ]
@@ -127,10 +127,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = config('STATIC_ROOT', default=BASE_DIR / 'static')
+# STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+#     "/var/www/edi/static/",
+# ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = config('MEDIA_ROOT', default=BASE_DIR / 'media')
+# MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type

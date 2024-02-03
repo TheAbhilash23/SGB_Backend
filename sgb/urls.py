@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from core.base_items import BaseSwagger
@@ -26,4 +28,4 @@ urlpatterns = [
     path('api/', include(router.get_urls()), name='api'),
     path('swagger/', include(BaseSwagger.urlpatterns)),
     path('render/', include(rendering_router.get_urls()), name='render'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

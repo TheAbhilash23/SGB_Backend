@@ -10,8 +10,7 @@ services:
     volumes:
       - ./iam:/iam
     restart: always
-    command: >
-      bash -c "python3 manage.py run_grpc_server '[::]:50051'"
+    command: python manage.py run_grpc_server [::]:50051
     working_dir: /iam
 
   sgb-service:
@@ -20,6 +19,7 @@ services:
       context: .
     tty: true
     container_name: banking-sgb-service
+#    command: python manage.py run_grpc_server [::]:50052
     volumes:
       - ./sgb:/sgb
     restart: always
@@ -57,7 +57,7 @@ services:
       - sgb-service
     volumes:
       - ./sgb:/sgb
-      - .data/sgb/static:/var/www/static`
+      - .data/sgb/static:/var/www/static
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&

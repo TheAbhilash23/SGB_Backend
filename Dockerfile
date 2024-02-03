@@ -1,4 +1,4 @@
-FROM python:3.10 AS build
+FROM python:3.10-slim-buster AS build
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y nano
