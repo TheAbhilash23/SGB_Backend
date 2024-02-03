@@ -1,0 +1,33 @@
+syntax = 'proto3';
+
+service Customer {
+  rpc List (ListRequest) returns (stream CustomerData) {}
+  rpc Retrieve (CustomerRetrieveRequest) returns (CustomerData) {}
+  rpc UserIdRetrieve (CustomerUserRetrieveRequest) returns (CustomerData) {}
+  rpc Create (CustomerCreateRequest) returns (CustomerData) {}
+}
+
+message ListRequest {
+}
+
+message CustomerRetrieveRequest {
+  int64 customer_id = 1;
+}
+
+message CustomerUserRetrieveRequest {
+  int64 user_id = 1;
+}
+
+message CustomerCreateRequest {
+  int64 user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message CustomerData {
+  int64 user_id = 1;
+  string name = 2;
+  int64 id = 3;
+  string email = 4;
+}
+
