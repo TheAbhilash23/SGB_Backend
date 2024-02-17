@@ -3,12 +3,12 @@ import grpc
 from django.core.exceptions import PermissionDenied
 from django.utils.deprecation import MiddlewareMixin
 from google.protobuf.descriptor_pool import DescriptorPool
-from google.protobuf.message_factory import MessageFactory
+from google.protobuf.message_factory import GetMessageClass
 from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoReflectionDescriptorDatabase
 
 
-GRPC_REFLECTION_INVOCATION_STRING = 'TokenVerificationRequest'
 channel = grpc.insecure_channel("iam-service:50051")
+GRPC_REFLECTION_INVOCATION_STRING = 'TokenVerificationRequest'
 reflection_db = ProtoReflectionDescriptorDatabase(channel)
 
 descriptor_pool = DescriptorPool(reflection_db)
@@ -16,9 +16,11 @@ request_desc = descriptor_pool.FindMessageTypeByName(GRPC_REFLECTION_INVOCATION_
 service_descriptor = descriptor_pool.FindServiceByName('User')
 method_descriptor = descriptor_pool.FindMethodByName('User.authenticate_token')
 
-request_class = MessageFactory(descriptor_pool).GetPrototype(request_desc)
+# request_class = MessageFactory(descriptor_pool).GetPrototype(request_desc)
+request_class = GetMessageClass(request_desc)
 response_desc = descriptor_pool.FindMessageTypeByName('TokenVerificationResponse')
-response_class = MessageFactory(descriptor_pool).GetPrototype(response_desc)
+# response_class = MessageFactory(descriptor_pool).GetPrototype(response_desc)
+response_class = GetMessageClass(response_desc)
 
 token_validation_response = channel.unary_unary(
     '/{}/{}'.format(service_descriptor.full_name, method_descriptor.name),
