@@ -9,29 +9,29 @@ class ListRequest(_message.Message):
     def __init__(self) -> None: ...
 
 class UserRetrieveRequest(_message.Message):
-    __slots__ = ["UserId"]
-    USERID_FIELD_NUMBER: _ClassVar[int]
-    UserId: int
-    def __init__(self, UserId: _Optional[int] = ...) -> None: ...
+    __slots__ = ["id"]
+    ID_FIELD_NUMBER: _ClassVar[int]
+    id: int
+    def __init__(self, id: _Optional[int] = ...) -> None: ...
 
 class TokenVerificationRequest(_message.Message):
-    __slots__ = ["Token"]
+    __slots__ = ["token"]
     TOKEN_FIELD_NUMBER: _ClassVar[int]
-    Token: str
-    def __init__(self, Token: _Optional[str] = ...) -> None: ...
+    token: str
+    def __init__(self, token: _Optional[str] = ...) -> None: ...
 
 class TokenVerificationResponse(_message.Message):
-    __slots__ = ["IsValidToken"]
-    ISVALIDTOKEN_FIELD_NUMBER: _ClassVar[int]
-    IsValidToken: bool
-    def __init__(self, IsValidToken: bool = ...) -> None: ...
+    __slots__ = ["is_valid_token"]
+    IS_VALID_TOKEN_FIELD_NUMBER: _ClassVar[int]
+    is_valid_token: bool
+    def __init__(self, is_valid_token: bool = ...) -> None: ...
 
 class UserData(_message.Message):
-    __slots__ = ["UserId", "UserName", "EmailAddress"]
-    USERID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ["id", "username", "email"]
+    ID_FIELD_NUMBER: _ClassVar[int]
     USERNAME_FIELD_NUMBER: _ClassVar[int]
-    EMAILADDRESS_FIELD_NUMBER: _ClassVar[int]
-    UserId: int
-    UserName: str
-    EmailAddress: str
-    def __init__(self, UserId: _Optional[int] = ..., UserName: _Optional[str] = ..., EmailAddress: _Optional[str] = ...) -> None: ...
+    EMAIL_FIELD_NUMBER: _ClassVar[int]
+    id: int
+    username: str
+    email: str
+    def __init__(self, id: _Optional[int] = ..., username: _Optional[str] = ..., email: _Optional[str] = ...) -> None: ...
