@@ -13,12 +13,10 @@ naiveip_re = _lazy_re_compile(r"""^(?:
 
 
 class Command(BaseCommand):
-    help = 'Starts a gRPC server.'
+    help = 'Starts a gRPC server. Requires complete address in the argument'
 
     # Validation is called explicitly each time the server is reloaded.
     # requires_system_checks = False
-    default_addr = '[::]'
-    default_port = '50051'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -34,5 +32,5 @@ class Command(BaseCommand):
         handler = settings.HANDLER
         grpc_server_object = Server()
         handler.registry_collection(grpc_server_object._server())
-        grpc_server_object.run(f'{self.default_addr}:{self.default_port}')
+        grpc_server_object.run(f"{options['address']}")
 

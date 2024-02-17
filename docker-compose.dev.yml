@@ -10,7 +10,7 @@ services:
     volumes:
       - ./iam:/iam
     restart: always
-    command: python manage.py run_grpc_server [::]:50051
+    command: ['./run_grpc_server.sh']
     working_dir: /iam
 
   sgb-service:
@@ -19,7 +19,7 @@ services:
       context: .
     tty: true
     container_name: banking-sgb-service
-#    command: python manage.py run_grpc_server [::]:50052
+    command: ['./run_grpc_server.sh']
     volumes:
       - ./sgb:/sgb
     restart: always

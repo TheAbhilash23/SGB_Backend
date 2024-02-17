@@ -23,11 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent
 SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
 
 
-
 # GRPC registration
-HANDLER = RegistryCollection()
-HANDLER.register('users.services.UserService')
-# HANDLER.register('users.services.GreetingService')
+HANDLER = RegistryCollection('iam')
+HANDLER.register('users.service_views.UserServiceView')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/

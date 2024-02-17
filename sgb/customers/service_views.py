@@ -5,7 +5,7 @@ from generated_grpc import customers_pb2
 from generated_grpc import customers_pb2_grpc
 
 
-class CustomerService(BaseAbstractService):
+class CustomerServiceView(BaseAbstractService):
     grpc_module = customers_pb2_grpc
     pb2_module = customers_pb2
 
@@ -79,5 +79,5 @@ class CustomerService(BaseAbstractService):
 
     @property
     def label(self) -> str:
-        return 'customer'
+        return 'Customer'
 

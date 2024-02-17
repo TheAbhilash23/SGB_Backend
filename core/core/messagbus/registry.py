@@ -42,14 +42,15 @@ class RuntimeGRPCRegistry:
     def register_to_server(self, server):
         return self._service_class.get_add_servicer_method(server)
 
-    @property
-    def label(self):
-        return 'iam'
-
 
 class RegistryCollection:
-    def __init__(self):
-        self._registry = set()
+    def __init__(self, micro_service_name):
+        self._registry = set()  # all registered service views will be added here for the microservice
+        self._micro_service_name = micro_service_name
+
+    @property
+    def micro_service_name(self):
+        return self._micro_service_name
 
     def register(self, service: str):
         runtime_registry = RuntimeGRPCRegistry(service)
@@ -66,11 +67,12 @@ class RegistryCollection:
         for service in self._registry:
             service.register_to_server(server)
             service_name = service.service_class.label
+            print(service_name)
             service_names.append(
                 service.service_class.pb2_module.DESCRIPTOR.services_by_name[service_name].full_name
             )
             status = HealthCheckResponse.SERVING
-            health_servicer.set(service.label, status)
+            health_servicer.set(service_name, status)
         health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
         reflection.enable_server_reflection(service_names, server)
 

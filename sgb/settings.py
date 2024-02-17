@@ -14,10 +14,15 @@ from pathlib import Path
 import os
 from decouple import config
 
+from core.messagbus.registry import RegistryCollection
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
 
+# GRPC registration
 
+HANDLER = RegistryCollection('sgb')
+HANDLER.register('customers.service_views.CustomerServiceView')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -27,9 +32,7 @@ SECRET_KEY = 'django-insecure-cy#5z(o7cbeq)!7natfmnhzjfop4#^vbti7^#p80a8o*c0u=9@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["abhilash23-sgbproject.herokuapp.com",
-                 "localhost",
-                 '127.0.0.1']
+ALLOWED_HOSTS = ('*',)
 
 
 # Application definition

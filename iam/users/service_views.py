@@ -9,17 +9,23 @@ from generated_grpc import User_pb2_grpc
 # from users.models import User
 
 
-class UserService(BaseAbstractService):
+class UserServiceView(BaseAbstractService):
     grpc_module = User_pb2_grpc
     pb2_module = User_pb2
 
-    class Servicer(User_pb2_grpc.UserServicer):
+    class Servicer(grpc_module.UserServicer):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.model = None
 
+        def get_model(self):
+            if self.model is None:
+                from customers.models import Customer
+                self.model = Customer
+            return self.model
+
         def get_queryset(self):
-            return self.model.objects.all()
+            return self.get_model().objects.all()
 
         def list(self, request, context):
             queryset = self.get_queryset()
@@ -34,7 +40,7 @@ class UserService(BaseAbstractService):
         def retrieve(self, request, context):
             print(f'Retrieve Context {context}\n\n')
             print(f'Retrieve request {request}')
-            queryset = self.get_queryset().filter(UserId=1).get()
+            queryset = self.get_queryset().get(UserId=request.UserId)
             data = {
                 "UserId": queryset.UserId,
                 "UserName": queryset.username,
