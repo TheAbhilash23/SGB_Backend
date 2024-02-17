@@ -9,7 +9,6 @@ class User(BaseAuthUserModel):
     email = models.EmailField(
         _('Email Address'),
         max_length=255,
-
     )
     username = models.CharField(
         _('Username'),

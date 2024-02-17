@@ -20,8 +20,8 @@ class UserServiceView(BaseAbstractService):
 
         def get_model(self):
             if self.model is None:
-                from customers.models import Customer
-                self.model = Customer
+                from users.models import User
+                self.model = User
             return self.model
 
         def get_queryset(self):
@@ -31,9 +31,9 @@ class UserServiceView(BaseAbstractService):
             queryset = self.get_queryset()
             for user_data in queryset:
                 data = {
-                    "UserId": user_data.UserId,
-                    "UserName": user_data.username,
-                    "EmailAddress": user_data.email,
+                    "id": user_data.id,
+                    "username": user_data.username,
+                    "email": user_data.email,
                 }
                 yield ParseDict(data or {}, User_pb2.UserData())
 
@@ -42,9 +42,9 @@ class UserServiceView(BaseAbstractService):
             print(f'Retrieve request {request}')
             queryset = self.get_queryset().get(UserId=request.UserId)
             data = {
-                "UserId": queryset.UserId,
-                "UserName": queryset.username,
-                "EmailAddress": queryset.email,
+                "id": queryset.id,
+                "username": queryset.username,
+                "email": queryset.email,
             }
             response = ParseDict(data, User_pb2.UserData())
             print(f'response ::: \n {response}')
@@ -56,7 +56,7 @@ class UserServiceView(BaseAbstractService):
                 is_valid = GRPCAuthentication(request.Token)
             except TokenError:
                 is_valid = False
-            response = ParseDict({'IsValidToken': is_valid}, User_pb2.TokenVerificationResponse())
+            response = ParseDict({'is_valid_token': is_valid}, User_pb2.TokenVerificationResponse())
             return response
 
     __servicer = Servicer()
