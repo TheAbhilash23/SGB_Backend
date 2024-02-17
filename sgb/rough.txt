@@ -1,0 +1,36 @@
+############################################
+IMPORTS FOR GRPC REFLECTION USAGE
+############################################
+import grpc
+from django.core.exceptions import PermissionDenied
+from django.utils.deprecation import MiddlewareMixin
+from google.protobuf.descriptor_pool import DescriptorPool
+from google.protobuf.message_factory import GetMessageClass
+from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoReflectionDescriptorDatabase
+############################################
+
+channel = grpc.insecure_channel("iam-service:50051")
+
+GRPC_REFLECTION_INVOCATION_STRING = 'ListRequest'
+
+reflection_db = ProtoReflectionDescriptorDatabase(channel)
+descriptor_pool = DescriptorPool(reflection_db)
+request_desc = descriptor_pool.FindMessageTypeByName(GRPC_REFLECTION_INVOCATION_STRING)
+service_descriptor = descriptor_pool.FindServiceByName('User')
+
+method_descriptor = descriptor_pool.FindMethodByName('User.list')
+
+request_class = GetMessageClass(request_desc)
+response_desc = descriptor_pool.FindMessageTypeByName('UserData')
+
+response_class = GetMessageClass(response_desc)
+
+list_dta = channel.unary_stream(
+        '/User/list',
+        request_serializer=request_class.SerializeToString,
+        response_deserializer=response_class.FromString,
+        )
+
+resp = list(list_dta(request_class()))
+
+
