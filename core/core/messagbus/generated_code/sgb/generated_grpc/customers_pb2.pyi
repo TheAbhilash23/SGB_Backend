@@ -9,10 +9,10 @@ class ListRequest(_message.Message):
     def __init__(self) -> None: ...
 
 class CustomerRetrieveRequest(_message.Message):
-    __slots__ = ["customer_id"]
-    CUSTOMER_ID_FIELD_NUMBER: _ClassVar[int]
-    customer_id: int
-    def __init__(self, customer_id: _Optional[int] = ...) -> None: ...
+    __slots__ = ["id"]
+    ID_FIELD_NUMBER: _ClassVar[int]
+    id: int
+    def __init__(self, id: _Optional[int] = ...) -> None: ...
 
 class CustomerUserRetrieveRequest(_message.Message):
     __slots__ = ["user_id"]

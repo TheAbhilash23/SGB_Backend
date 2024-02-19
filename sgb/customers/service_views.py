@@ -1,8 +1,8 @@
 from google.protobuf.json_format import ParseDict
 
 from core.messagbus.server import BaseAbstractService
-from generated_grpc import customers_pb2
-from generated_grpc import customers_pb2_grpc
+from core.messagbus.generated_code.sgb.generated_grpc import customers_pb2
+from core.messagbus.generated_code.sgb.generated_grpc import customers_pb2_grpc
 
 
 class CustomerServiceView(BaseAbstractService):
@@ -30,27 +30,30 @@ class CustomerServiceView(BaseAbstractService):
                 data = {
                     "user_id": obj.user_id,
                     "name": obj.name,
-                    "customer_id": obj.email,
+                    "id": obj.id,
+                    "email": obj.email,
                 }
                 yield ParseDict(data or {}, customers_pb2.CustomerData())
 
         def Retrieve(self, request, context):
             """Missing associated documentation comment in .proto file."""
-            obj = self.get_queryset().get(customer_id=request.customer_id)
+            obj = self.get_queryset().get(customer_id=request.id)
             data = {
                 "user_id": obj.user_id,
                 "name": obj.name,
-                "customer_id": obj.customer_id,
+                "id": obj.id,
+                "email": obj.email,
             }
             response = ParseDict(data or {}, customers_pb2.CustomerData())
             return response
 
         def UserIdRetrieve(self, request, context):
-            obj = self.get_queryset().get(customer_id=request.user_id)
+            obj = self.get_queryset().get(id=request.user_id)
             data = {
                 "user_id": obj.user_id,
                 "name": obj.name,
-                "customer_id": obj.customer_id,
+                "id": obj.id,
+                "email": obj.email,
             }
             return ParseDict(data or {}, customers_pb2.CustomerData())
 

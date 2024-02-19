@@ -1,0 +1,22 @@
+from core.base_settings import MESSAGE_BUS_SETTINGS
+from google._upb._message import Message
+
+issubclass(User_pb2.ListRequest, Message)
+True
+
+
+for i in User_pb2._globals:
+    print(i)
+    print(type(i))
+    print('----------')
+    print(type(User_pb2._globals.get(i)))
+    try:
+        print(issubclass(User_pb2._globals.get(i), Message))
+    except TypeError:
+        continue
+    print('\n\n\n')
+
+
+reflection_db = ProtoReflectionDescriptorDatabase(channel)
+descriptor_pool.FindServiceByName('User')
+reflection_db._file_desc_protos_by_file
