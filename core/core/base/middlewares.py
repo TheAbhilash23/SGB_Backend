@@ -14,7 +14,7 @@ reflection_db = ProtoReflectionDescriptorDatabase(channel)
 descriptor_pool = DescriptorPool(reflection_db)
 request_desc = descriptor_pool.FindMessageTypeByName(GRPC_REFLECTION_INVOCATION_STRING)
 service_descriptor = descriptor_pool.FindServiceByName('User')
-method_descriptor = descriptor_pool.FindMethodByName('User.authenticate_token')
+method_descriptor = descriptor_pool.FindMethodByName('User.AuthenticateToken')
 
 # request_class = MessageFactory(descriptor_pool).GetPrototype(request_desc)
 request_class = GetMessageClass(request_desc)
@@ -45,8 +45,8 @@ class IAMTokenAuthenticate(MiddlewareMixin):
 
     def validate_token(self, request):
         raw_token = request.headers.get('Authorization')
-        grpc_response = token_validation_response(request_class(Token=raw_token))
-        if grpc_response.IsValidToken:
+        grpc_response = token_validation_response(request_class(token=raw_token))
+        if grpc_response.is_valid_token:
             return True
         else:
             return False

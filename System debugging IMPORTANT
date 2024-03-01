@@ -21,7 +21,7 @@
 python -m  grpc_tools.protoc -I ./ --python_out=../grpc_protos --pyi_out=../grpc_protos --grpc_python_out=../grpc_protos User.proto
     Later on the command was changed to:-
     after creating generated_grpc folder and cd into grpc_protos folder where the proto file is present
-    ->    python -m  grpc_tools.protoc -I ./ --python_out=../generated_grpc --pyi_out=../generated_grpc --grpc_python_out=../generated_grpc User.proto
+    ->    python -m  grpc_tools.protoc -I ./ --python_out=../generated_grpc/user --pyi_out=../generated_grpc/user --grpc_python_out=../generated_grpc/user user.proto
 
     LATER USED PROTOC COMMAND TO GENERATE CODE
     -->     protoc -I ./ --python_out=../generated_grpc --grpc_python_out=../generated_grpc User.proto

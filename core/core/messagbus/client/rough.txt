@@ -1,5 +1,19 @@
 from core.base_settings import MESSAGE_BUS_SETTINGS
 from google._upb._message import Message
+from django.core.exceptions import PermissionDenied
+from django.utils.deprecation import MiddlewareMixin
+from google.protobuf.message_factory import GetMessageClass
+
+import grpc
+from google.protobuf.descriptor_pool import DescriptorPool
+from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoReflectionDescriptorDatabase
+from grpc_reflection.v1alpha.reflection import ReflectionServicer
+
+from core.messagbus.client.message_types import get_pb2_messages
+from core.messagbus.client.services import get_loaded_reflection_db
+
+
+
 
 issubclass(User_pb2.ListRequest, Message)
 True
@@ -20,3 +34,21 @@ for i in User_pb2._globals:
 reflection_db = ProtoReflectionDescriptorDatabase(channel)
 descriptor_pool.FindServiceByName('User')
 reflection_db._file_desc_protos_by_file
+
+rdb, service_names = get_loaded_reflection_db('iam-service:50051')
+file_descriptor = rdb._file_desc_protos_by_file
+file_descriptor['User.proto'].service[0].method[0].input_type
+
+
+
+from core.messagbus.client.client import GRPCClient
+from client_dev.client import *
+
+MESSAGE_BUS_MAPPINGS = {
+    "iam": "banking-iam-service:50051",
+    "sgb": "banking-sgb-service:50052",
+}
+
+registry = GRPCClient(MESSAGE_BUS_MAPPINGS)
+registry.iam.User.User.authenticate_token._request_class._fields
+# ipdb.set_trace()

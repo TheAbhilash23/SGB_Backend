@@ -1,9 +1,9 @@
 syntax = 'proto3';
 
 service User {
-  rpc list (ListRequest) returns (stream UserData) {}
-  rpc retrieve (UserRetrieveRequest) returns (UserData) {}
-  rpc authenticate_token (TokenVerificationRequest) returns (TokenVerificationResponse) {}
+  rpc List (ListRequest) returns (stream UserData) {}
+  rpc Retrieve (UserRetrieveRequest) returns (UserData) {}
+  rpc AuthenticateToken (TokenVerificationRequest) returns (TokenVerificationResponse) {}
 }
 
 message ListRequest {

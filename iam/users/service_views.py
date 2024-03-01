@@ -2,16 +2,13 @@ from google.protobuf.json_format import ParseDict
 from rest_framework_simplejwt.exceptions import TokenError
 
 from core.messagbus.server import BaseAbstractService
-from core.messagbus.generated_code.iam.generated_grpc import User_pb2
-from core.messagbus.generated_code.iam.generated_grpc import User_pb2_grpc
-
-
-# from users.models import User
+from core.messagbus.generated_code.iam.generated_grpc.user import user_pb2
+from core.messagbus.generated_code.iam.generated_grpc.user import user_pb2_grpc
 
 
 class UserServiceView(BaseAbstractService):
-    grpc_module = User_pb2_grpc
-    pb2_module = User_pb2
+    grpc_module = user_pb2_grpc
+    pb2_module = user_pb2
 
     class Servicer(grpc_module.UserServicer):
         def __init__(self, *args, **kwargs):
@@ -27,7 +24,7 @@ class UserServiceView(BaseAbstractService):
         def get_queryset(self):
             return self.get_model().objects.all()
 
-        def list(self, request, context):
+        def List(self, request, context):
             queryset = self.get_queryset()
             for user_data in queryset:
                 data = {
@@ -35,28 +32,28 @@ class UserServiceView(BaseAbstractService):
                     "username": user_data.username,
                     "email": user_data.email,
                 }
-                yield ParseDict(data or {}, User_pb2.UserData())
+                yield ParseDict(data or {}, user_pb2.UserData())
 
-        def retrieve(self, request, context):
+        def Retrieve(self, request, context):
             print(f'Retrieve Context {context}\n\n')
             print(f'Retrieve request {request}')
-            queryset = self.get_queryset().get(UserId=request.UserId)
+            queryset = self.get_queryset().get(id=request.id)
             data = {
                 "id": queryset.id,
                 "username": queryset.username,
                 "email": queryset.email,
             }
-            response = ParseDict(data, User_pb2.UserData())
+            response = ParseDict(data, user_pb2.UserData())
             print(f'response ::: \n {response}')
             return response
 
-        def authenticate_token(self, request, context):
+        def AuthenticateToken(self, request, context):
             from authentication import GRPCAuthentication
             try:
                 is_valid = GRPCAuthentication(request.Token)
             except TokenError:
                 is_valid = False
-            response = ParseDict({'is_valid_token': is_valid}, User_pb2.TokenVerificationResponse())
+            response = ParseDict({'is_valid_token': is_valid}, user_pb2.TokenVerificationResponse())
             return response
 
     __servicer = Servicer()
