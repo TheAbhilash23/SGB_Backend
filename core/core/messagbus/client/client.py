@@ -174,12 +174,20 @@ class Microservice:
     def __init__(
             self,
             reflection_descriptor_database: ProtoReflectionDescriptorDatabase,
-            proto_service_names: [str],
             channel: Channel
     ):
         self._descriptor_pool = DescriptorPool(reflection_descriptor_database)
-        for proto_name in proto_service_names:
+        self._proto_service_names = self.get_proto_service_names(reflection_descriptor_database)
+        # raise Exception('Stopped')
+        for proto_name in self._proto_service_names:
             self._add_protos_to_this_class(reflection_descriptor_database, proto_name, channel)
+
+    def get_proto_service_names(self, reflection_descriptor_database: ProtoReflectionDescriptorDatabase) -> list:
+        protos = []
+        for proto in reflection_descriptor_database._known_files:
+            if not proto.startswith('grpc'):
+                protos.append(proto)
+        return protos
 
     def _add_protos_to_this_class(
             self,
@@ -187,10 +195,10 @@ class Microservice:
             proto_name: str,
             channel) -> None:
 
-        proto = reflection_descriptor_database._file_desc_protos_by_file.get(f'{proto_name.lower()}.proto')
+        proto = reflection_descriptor_database._file_desc_protos_by_file.get(proto_name)
         print('sdfsdfsdf', proto, proto_name)
         if proto:
-            setattr(self, f'{proto_name}', Proto(proto, self._descriptor_pool, channel))
+            setattr(self, f'{proto_name.split(".")[0]}', Proto(proto, self._descriptor_pool, channel))
 
 
 class GRPCClient:
@@ -201,11 +209,11 @@ class GRPCClient:
         self._microservices = microservices
         for microservice_name in microservices.keys():
             # ipdb.set_trace()
-            rdb, proto_service_names, channel = self._add_service(microservices[microservice_name])
-            print(rdb, proto_service_names, channel, sep=' ** ')
+            rdb, channel = self._add_service(microservices[microservice_name])
+            print(rdb, channel, sep=' ** ')
             setattr(self, f'_{microservice_name}_rdb', rdb)
-            setattr(self, f'{microservice_name}', Microservice(rdb, proto_service_names, channel))
+            setattr(self, f'{microservice_name}', Microservice(rdb, channel))
 
-    def _add_service(self, service_address: str) -> (ProtoReflectionDescriptorDatabase, list, Channel):
+    def _add_service(self, service_address: str) -> (ProtoReflectionDescriptorDatabase, Channel):
         return get_loaded_reflection_db(service_address)
 

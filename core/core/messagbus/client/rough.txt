@@ -41,8 +41,8 @@ file_descriptor['User.proto'].service[0].method[0].input_type
 
 
 
-from core.messagbus.client.client import GRPCClient
 from client_dev.client import *
+from core.messagbus.client.client import GRPCClient
 
 MESSAGE_BUS_MAPPINGS = {
     "iam": "banking-iam-service:50051",

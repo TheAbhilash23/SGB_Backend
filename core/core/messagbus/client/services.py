@@ -3,7 +3,7 @@ from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoRe
 from grpc._channel import Channel
 
 
-def get_loaded_reflection_db(channel_address: str) -> (ProtoReflectionDescriptorDatabase, list, Channel):
+def get_loaded_reflection_db(channel_address: str) -> (ProtoReflectionDescriptorDatabase, Channel):
     print(channel_address)
     channel = grpc.insecure_channel(channel_address)
     reflection_db = ProtoReflectionDescriptorDatabase(channel)
@@ -20,7 +20,7 @@ def get_loaded_reflection_db(channel_address: str) -> (ProtoReflectionDescriptor
             reflection_db.FindFileContainingSymbol(service)
         except Exception:
             continue
-    return reflection_db, service_list, channel
+    return reflection_db, channel
 
 
 def _contruct_caller(
