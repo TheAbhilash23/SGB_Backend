@@ -1,8 +1,8 @@
 from google.protobuf.json_format import ParseDict
 
 from core.messagbus.server import BaseAbstractService
-from core.messagbus.generated_code.sgb.generated_grpc.customers import customers_pb2
-from core.messagbus.generated_code.sgb.generated_grpc.customers import customers_pb2_grpc
+from generated_grpc.customers import customers_pb2
+from generated_grpc.customers import customers_pb2_grpc
 
 
 class CustomerServiceView(BaseAbstractService):

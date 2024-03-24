@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
-import re
 
-from django.core.management.base import BaseCommand
-from django.utils.regex_helper import _lazy_re_compile
 from django.conf import settings
-from ...registry import RegistryCollection
-from ...server import Server
+from django.core.management.base import BaseCommand
 
-naiveip_re = _lazy_re_compile(r"""^(?:
-(?P<ipv6>\[[a-fA-F0-9:]+\])
-:)?(?P<port>\d+)$""", re.X)
+from ...server import Server
 
 
 class Command(BaseCommand):

@@ -2,8 +2,8 @@ from google.protobuf.json_format import ParseDict
 from rest_framework_simplejwt.exceptions import TokenError
 
 from core.messagbus.server import BaseAbstractService
-from core.messagbus.generated_code.iam.generated_grpc.user import user_pb2
-from core.messagbus.generated_code.iam.generated_grpc.user import user_pb2_grpc
+from generated_grpc.user import user_pb2
+from generated_grpc.user import user_pb2_grpc
 
 
 class UserServiceView(BaseAbstractService):

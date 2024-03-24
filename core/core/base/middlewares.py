@@ -1,6 +1,7 @@
 # from django.middleware
 import grpc
 from django.core.exceptions import PermissionDenied
+from django.urls import reverse, resolve
 from django.utils.deprecation import MiddlewareMixin
 from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.message_factory import GetMessageClass
@@ -31,8 +32,19 @@ token_validation_response = channel.unary_unary(
 
 class IAMTokenAuthenticate(MiddlewareMixin):
 
+    def is_request_for_django_admin(self, request):
+        admin_urls = [
+            reverse('admin:index'),
+            reverse('admin:login'),
+        ]
+
+        resolved_url = resolve(request.path)
+        if resolved_url.namespace == 'admin' or request.path in admin_urls:
+            return True
+        return False
+
     def process_request(self, request):
-        if not request.path.startswith('/admin/'):
+        if not self.is_request_for_django_admin(request):
             print('Processing request for token authentication')
             is_valid_token = self.validate_token(request)
             print('Token is valid : {}'.format(is_valid_token))
