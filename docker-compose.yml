@@ -1,0 +1,79 @@
+version: '3.4'
+services:
+
+  iam-service:
+    image: 'banking:development'
+    build:
+      context: .
+    tty: true
+    container_name: banking-iam-service
+    volumes:
+      - ./iam:/iam
+    restart: always
+    command: ['./run_grpc_server.sh']
+    working_dir: /iam
+
+  sgb-service:
+    image: 'banking:development'
+    build:
+      context: .
+    tty: true
+    container_name: banking-sgb-service
+    command: ['./run_grpc_server.sh']
+    volumes:
+      - ./sgb:/sgb
+    restart: always
+    working_dir: /sgb
+
+  iam:
+    image: 'banking:development'
+    build:
+      context: .
+    tty: true
+    container_name: banking-iam
+    depends_on:
+      - iam-service
+    volumes:
+      - ./iam:/iam
+      - .data/iam/static:/var/www/static
+      - .data/iam/media:/var/www/media
+
+    restart: always
+    command: >
+      bash -c "python manage.py migrate &&
+               python manage.py collectstatic --no-input --clear &&
+               python manage.py runserver 0.0.0.0:8000"
+    working_dir: /iam
+
+  sgb:
+    image: 'banking:development'
+    build:
+      context: .
+    tty: true
+    container_name: banking-sgb
+    depends_on:
+      - iam-service
+      - sgb-service
+    volumes:
+      - ./sgb:/sgb
+      - .data/sgb/static:/var/www/static
+      - .data/sgb/media:/var/www/media
+
+    command: >
+      bash -c "python manage.py migrate &&
+               python manage.py collectstatic --no-input --clear &&
+               python manage.py runserver 0.0.0.0:8001"
+    restart: always
+    working_dir: /sgb
+
+  nginx:
+    image: nginx:latest
+    container_name: 'banking-nginx'
+    depends_on:
+      - iam
+      - sgb
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+    restart: unless-stopped
