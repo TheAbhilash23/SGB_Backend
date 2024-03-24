@@ -36,14 +36,11 @@ admin.site.site_header = _('IAM')
 # admin.site = CustomAdminSite(name=admin_site.name)
 # admin.site.register(admin_site._registry)
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.get_urls()), name='api'),
-    path('api/o/', include('dj_rest_auth.urls')),
-    path('api/o/registration/', include('dj_rest_auth.registration.urls')),
-    path('api/o/google/', GoogleLogin.as_view(), name='dj_google_login'),
+urlpatterns = ([
+    path('iam/admin/', admin.site.urls),
+    path('iam/api/', include(router.get_urls()), name='api'),
+    path('iam/api/o/', include('dj_rest_auth.urls')),
+    path('iam/api/o/registration/', include('dj_rest_auth.registration.urls')),
+    path('iam/api/o/google/', GoogleLogin.as_view(), name='dj_google_login'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
-
-# from dj_rest_auth.registration.urls import
+  + static(settings.MEDIA_ROOT, document_root=settings.MEDIA_ROOT))

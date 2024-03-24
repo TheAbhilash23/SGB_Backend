@@ -23,9 +23,10 @@ from routers import router
 from rendering_routers import router as rendering_router
 
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.get_urls()), name='api'),
-    path('swagger/', include(BaseSwagger.urlpatterns)),
-    path('render/', include(rendering_router.get_urls()), name='render'),
+urlpatterns = ([
+    path('sgb/admin/', admin.site.urls),
+    path('sgb/api/', include(router.get_urls()), name='api'),
+    path('sgb/swagger/', include(BaseSwagger.urlpatterns)),
+    path('sgb/render/', include(rendering_router.get_urls()), name='render'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
