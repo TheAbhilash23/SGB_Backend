@@ -143,3 +143,24 @@ MEDIA_ROOT = config('MEDIA_ROOT', default=BASE_DIR / 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Djagno-Redis-Session settings
+# from redis_sessions import settings
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+# this should be different for all microservices otherwise they will be overridden by the browser
+CSRF_COOKIE_NAME = 'sgbcsrftoken'
+# this should be different for all microservices otherwise they will be overridden by the browser
+SESSION_COOKIE_NAME = 'sgbsession'
+
+# Use 'redis' as the host since it's the name of the Redis service in the Docker Compose file
+SESSION_REDIS = {
+    'host': 'banking-redis',
+    'port': 6379,
+    'db': 0,
+    'prefix': 'session',
+    'socket_timeout': 1
+}
+
+# from django.contrib.sessions.serializers import PickleSerializer

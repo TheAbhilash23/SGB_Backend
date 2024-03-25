@@ -33,6 +33,7 @@ services:
     container_name: banking-iam
     depends_on:
       - iam-service
+      - redis
     volumes:
       - ./iam:/iam
       - .data/iam/static:/var/www/static
@@ -54,6 +55,7 @@ services:
     depends_on:
       - iam-service
       - sgb-service
+      - redis
     volumes:
       - ./sgb:/sgb
       - .data/sgb/static:/var/www/static
@@ -77,3 +79,9 @@ services:
     volumes:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
     restart: unless-stopped
+
+  redis: # For shared sessions (django admin) and caching
+    image: redis:alpine
+    container_name: banking-redis
+    ports:
+      - "6379:6379"

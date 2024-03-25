@@ -20,7 +20,8 @@ from decouple import config
 # Load environment variables from .env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
-SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
+# SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
+SECRET_KEY = 'django-insecure-cy#5z(o7cbeq)!7natfmnhzjfop4#^vbti7^#p80a8o*c0u=9@'
 
 
 # GRPC registration
@@ -240,3 +241,18 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SITE_ID = 1
+
+# Djagno-Redis-Session settings
+SESSION_ENGINE = 'redis_sessions.session'
+CSRF_COOKIE_NAME = 'iamcsrftoken'
+SESSION_COOKIE_NAME = 'iamsession'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+# Use 'redis' as the host since it's the name of the Redis service in the Docker Compose file
+SESSION_REDIS = {
+    'host': 'banking-redis',
+    'port': 6379,
+    'db': 0,
+    'prefix': 'session',
+    'socket_timeout': 1
+}

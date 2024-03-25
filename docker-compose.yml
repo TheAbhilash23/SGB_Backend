@@ -77,3 +77,8 @@ services:
     volumes:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
     restart: unless-stopped
+
+  redis: # For shared sessions (django admin) and caching
+    image: redis:alpine
+    ports:
+      - "6379:6379"
