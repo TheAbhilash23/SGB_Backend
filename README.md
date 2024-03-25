@@ -23,10 +23,12 @@ Tasks
 </h3>
 <h5>
 
-1. Create a GRPC reflection for IAM and SGB microservices so that each service can communicate using the reflection.
+1. Create a GRPC reflection for IAM and SGB microservices so that each service can communicate using the reflection.  ✅
+
 <br><br>
 
-2. Creation of message queue system to make microservices (excluding IAM) less coupled.
+2. Creation of message queue system to make microservices (excluding IAM) less coupled. 
+
 <br><br>
 
 </h5>
